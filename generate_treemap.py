@@ -499,7 +499,7 @@ def main():
             # texttemplate uses the pre-calculated display_text from custom_data[1]
             texttemplate="%{customdata[1]}",
             textinfo='text', # Instructs Plotly to use the texttemplate result
-            textfont=dict(size=14),
+            textfont=dict(size=18),
 
             # hovertemplate uses Plotly built-ins
             # %{id} shows the structural path Plotly uses (reflects collapsing based on modified Level columns)

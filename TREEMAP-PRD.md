@@ -20,7 +20,7 @@ This document outlines the requirements for the Interactive Customer Service Roo
 *   Visualize hierarchical customer service root cause data effectively.
 *   Provide an interactive way for users to explore ticket distribution across different root cause levels.
 *   Identify key areas contributing to customer service ticket volume.
-*   [Placeholder: Add any specific business goals, e.g., Reduce ticket volume in X area by Y%, Improve understanding of Z process.]
+
 
 ## 3. User Stories
 
@@ -106,7 +106,7 @@ The script MUST provide an OPTIONAL mechanism (controlled by the `ENABLE_DEBUG_O
 *   The DataFrame immediately after initial loading (`df_raw.csv`).
 *   The DataFrame after cleaning (`df_cleaned.csv`).
 *   The final aggregated DataFrame used for plotting (`df_aggregated.csv`).
-These files MUST be saved to a dedicated subdirectory (`../customer-ops-treemap/debug_output/`).
+These files MUST be saved to a dedicated subdirectory (`./debug_output/`).
 
 **FR-19: Error Handling - File Not Found**
 If the input CSV file does not exist, a user-friendly error message MUST be printed to the console.  

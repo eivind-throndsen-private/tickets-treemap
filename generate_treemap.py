@@ -7,9 +7,9 @@ import collections # Added for defaultdict if needed, although not used in final
 import json # Added for debug output
 
 # --- Configuration ---
-INPUT_CSV_PATH = '../customer-ops-treemap/CS_rootcause_trunc.csv'
-OUTPUT_HTML_PATH = '../customer-ops-treemap/tickets-treemap.html'
-DEBUG_OUTPUT_DIR = '../customer-ops-treemap/debug_output/'
+INPUT_CSV_PATH = 'CS_rootcause_trunc.csv'
+OUTPUT_HTML_PATH = 'tickets-treemap.html'
+DEBUG_OUTPUT_DIR = './debug_output/'
 ENABLE_DEBUG_OUTPUT = True # FR-18: Default ON
 
 # Hierarchy and value column names (assuming standard names, but will try to detect value column)
@@ -519,7 +519,8 @@ def main():
 
         # --- FR-12: Chart Title ---
         base_title = "Customer Service Root Cause Analysis"
-        chart_title = f"{base_title}: {value_col} (Collapsed Single Descendants)" # Updated title reflects change
+        chart_title = f"{base_title}: {value_col}"
+
         fig.update_layout(title_text=chart_title)
 
 

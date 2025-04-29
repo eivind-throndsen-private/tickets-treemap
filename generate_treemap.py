@@ -225,7 +225,7 @@ def generate_display_text_from_data(original_leaf_label, value, total_value):
     value_formatted = format_value(value)
     percentage_formatted = format_percentage(value, total_value)
     # Use the original leaf label stored during flattening
-    return f"{original_leaf_label} ({value_formatted}, {percentage_formatted})"
+    return f"{original_leaf_label}<br>{value_formatted}<br>{percentage_formatted}"
 
 # Removed generate_hover_text_from_data as it's replaced by hovertemplate logic below
 # def generate_hover_text_from_data(original_path_str, value_col_name, value, total_value):

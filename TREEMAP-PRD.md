@@ -2,7 +2,7 @@
 
 **Version:** 1.4
 **Date:** 2025-04-29
-**Author:** Cline (Updated based on `generate_treemap.py`)
+**Author:** Eivind Throndsen / Cline 
 **Changes:**
 *   Refined requirements to match script implementation (dynamic value col detection, specific error handling, debug default, node/hover text formats).
 *   Updated Data Schema.
@@ -53,11 +53,17 @@ After aggregation, `None` values in level columns MUST be replaced with empty st
 Each node (rectangle) in the treemap MUST display a label derived from its data.  
 
 **FR-8: Node Label Formatting**
-The displayed text for each node ON EVERY LEVEL MUST be generated based on the node's data. The script uses Plotly's `texttemplate` for formatting.
-*   The format applied via `texttemplate` MUST effectively be: `LeafLabel<br>(Value, Percentage%)`
-*   `LeafLabel`: MUST be the last non-empty string in the node's hierarchy path (e.g., the content of 'Level 3' if 'Level 4' is empty). If all hierarchy levels for a row are empty, "Root" SHOULD be used as the label for aggregation purposes, although the final treemap displays an explicit root node separately. The `get_last_non_empty` helper function implements this leaf label retrieval.
-*   `Value`: MUST be the aggregated value for that node (corresponding to `%{value}` in the template), formatted with a comma as a thousands separator and no decimal places (e.g., `1,234`), achieved using `%{value:,.0f}`.
-*   `Percentage`: MUST be the node's value as a percentage of the *root* total value (corresponding to `%{percentRoot}` in the template), formatted to two decimal places (e.g., `15.25%`), achieved using `%{percentRoot:.2%}`.
+The text displayed *on* each treemap node MUST be pre-calculated by the script and then displayed using Plotly's `texttemplate`.
+*   The script MUST use the `generate_display_text_from_data` helper function to create the display string for each row in the final plotting DataFrame (`df_plot`).
+*   This function MUST take the `original_leaf_label`, the row's aggregated value (`value_plot`), and the `total_value` for percentage calculation.
+*   The resulting string format MUST be: `OriginalLeafLabel (FormattedValue, FormattedPercentage%)` (Note: No `<br>` is used here).
+    *   `OriginalLeafLabel`: The label of the original leaf node this row represents, taken from the `original_leaf_label` column in `df_plot` (derived from the last element of the original path).
+    *   `FormattedValue`: The row's `value_plot`, formatted using the `format_value` helper (comma separator, no decimals, e.g., `1,234`).
+    *   `FormattedPercentage`: The row's `value_plot` as a percentage of the `total_value`, formatted using the `format_percentage` helper (two decimal places, e.g., `15.25%`).
+*   This pre-calculated display string MUST be stored in the `display_text` column of `df_plot`.
+*   This `display_text` column MUST be passed to Plotly via `custom_data` (specifically as `custom_data[1]` in the current implementation).
+*   The `texttemplate` property in `fig.update_traces` MUST be set to `"%{customdata[1]}"` to display this pre-calculated string on the node.
+*   The `textinfo` property MUST be set to `'text'` to enable the display of the `texttemplate`.
 
 
 **FR-9: Treemap Generation**
